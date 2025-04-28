@@ -1,12 +1,23 @@
 import { createReadStream } from "fs";
 import { createHash } from "crypto";
 import { pipeline } from "stream/promises";
+import { fileURLToPath } from "url";
+import path from "path";
 
 const calculateHash = async () => {
   try {
     const hash = createHash("sha256");
 
-    const fileStream = createReadStream("files/fileToCalculateHashFor.txt");
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+
+    const filenameToCalculateHashFor = path.join(
+      __dirname,
+      "files",
+      "fileToCalculateHashFor.txt"
+    );
+
+    const fileStream = createReadStream(filenameToCalculateHashFor);
 
     await pipeline(fileStream, hash);
 
