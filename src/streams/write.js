@@ -1,9 +1,15 @@
 import { createWriteStream } from "fs";
 import { pipeline } from "stream/promises";
+import { fileURLToPath } from "url";
+import path from "path";
 
 const write = async () => {
   try {
-    const fileStream = createWriteStream("files/fileToWrite.txt");
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+
+    const filenameToWrite = path.join(__dirname, "files", "fileToWrite.txt");
+    const fileStream = createWriteStream(filenameToWrite);
 
     await pipeline(process.stdin, fileStream);
 
