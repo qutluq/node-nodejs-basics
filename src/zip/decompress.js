@@ -1,12 +1,20 @@
 import fs from "fs";
 import zlib from "zlib";
 import { pipeline } from "stream/promises";
+import { fileURLToPath } from "url";
+import path from "path";
 
 const decompress = async () => {
   try {
-    const readStream = fs.createReadStream("archive.gz");
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
 
-    const writeStream = fs.createWriteStream("fileToCompress.txt");
+    const filenameToRead = path.join(__dirname, "archive.gz");
+    const filenameToCompress = path.join(__dirname, "fileToCompress.txt");
+
+    const readStream = fs.createReadStream(filenameToRead);
+
+    const writeStream = fs.createWriteStream(filenameToCompress);
 
     const gunzip = zlib.createGunzip();
 
