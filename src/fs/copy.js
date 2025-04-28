@@ -1,9 +1,13 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const copy = async () => {
-  const sourceDir = "files";
-  const targetDir = "files_copy";
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  const sourceDir = path.join(__dirname, "files");
+  const targetDir = path.join(__dirname, "files_copy");
 
   try {
     try {
